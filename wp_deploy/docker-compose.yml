@@ -1,0 +1,35 @@
+version: '3.3'
+
+services:
+   mysql:
+     image: mysql:8.0.17
+     command: '--default-authentication-plugin=mysql_native_password'
+     volumes:
+       - ${WORK_DIR}/mysql/data:/var/lib/mysql
+       # - ${WORK_DIR}/mysql/conf/my.cnf:/etc/mysql/my.cnf
+       # - ${WORK_DIR}/mysql/mysql-files:/var/lib/mysql-files
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: Mongoing@0318
+       MYSQL_DATABASE: mongoing
+       MYSQL_USER: mongoing
+       MYSQL_PASSWORD: Mongoing@0318
+
+   wordpress:
+     depends_on:
+       - mysql
+     image: wordpress:5.2.3-php7.3-fpm
+     volumes:
+       - ${WP_DIR}:/var/www/html
+       - ${WORK_DIR}/php/php.ini:/usr/local/etc/php/php.ini
+       # - ${WORK_DIR}/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf:rw
+       # - ${WORK_DIR}/log/php/:/var/log/php/:rw
+     ports:
+       - "9000:9000"
+     restart: always
+     environment:
+       WORDPRESS_DB_HOST: mysql:3306
+       WORDPRESS_DB_USER: mongoing
+       WORDPRESS_DB_PASSWORD: Mongoing@0318
+       WORDPRESS_DB_NAME: mongoing
+

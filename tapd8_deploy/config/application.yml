@@ -1,0 +1,26 @@
+spring:
+    data:
+        mongodb:
+            uri: ""
+            ssl: 'false'
+            sslCA: ""
+            sslCertKey: ""
+            conn_params: ""
+            username: root
+            password: U2FsdGVkX188f8QpzQ9hVHpJ2E77Dw==
+            mongoConnectionString: 'mdb_string'
+            sslPEMKeyFilePassword: 
+            authenticationDatabase: admin
+tapdata:
+    cloud:
+        accessCode: '<ACCESS_CODE>'
+        retryTime: 3
+        baseURLs: 'tapdata_url_string'
+    mode: cluster
+    conf:
+        tapdataPort: '3030'
+        backendUrl: 'tapdata_url_string'
+        apiServerPort: '3080'
+        reportInterval: 20000
+        tapdataJavaOpts: ""
+        SCRIPT_DIR: etc

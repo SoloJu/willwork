@@ -1,0 +1,44 @@
+systemLog:
+   verbosity: 0
+   quiet: false
+   traceAllExceptions: false
+   destination: file
+   path: /opt/rs_name_mdb/log/mongod.log
+   logAppend: true
+   logRotate: rename
+
+processManagement:
+   fork: true
+   pidFilePath: /opt/rs_name_mdb/mongod.pid
+
+storage:
+   dbPath: /opt/rs_name_mdb/db/node_l
+   journal:
+      enabled: true
+      commitIntervalMs: 100
+   directoryPerDB: true
+   syncPeriodSecs: 60
+   engine: wiredTiger
+   wiredTiger:
+      engineConfig:
+         cacheSizeGB: cacheSizeGB_default
+         journalCompressor: snappy
+         directoryForIndexes: false
+      collectionConfig:
+         blockCompressor: snappy
+      indexConfig:
+         prefixCompression: true
+
+net:
+   bindIp: 0.0.0.0
+   port: port_default
+   maxIncomingConnections: 20000
+
+replication:
+   oplogSizeMB: oplogSizeMB_default
+   enableMajorityReadConcern: false
+   replSetName: rs_name
+
+security:
+   authorization: enabled
+   keyFile: /opt/rs_name_mdb/config/rs_name.key
