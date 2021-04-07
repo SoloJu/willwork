@@ -3,7 +3,7 @@
 # 假设登录用户是root
 # 没有安装Java
 # 没有安装MongoDB
-# /opt/pkg/目录不存在
+# Java, MongoDB, Tapdatap安装包都已在/opt/pkg/目录
 # 
 # 自动化安装目录
 # ./tapd8_deploy
@@ -81,21 +81,21 @@ env_chk() {
 
 # 所有安装包都放入/opt/pkg/
 pre_install() {
-	mkdir -p ${pkg_dir}
-	echo 'Created directory /opt/pkg/'
-	echo 'Copied source files to /opt/pkg/'
-    cp ${cur_dir}/pkg/jdk*gz ${pkg_dir}
-    jdk=$(ls ${deploy_dir}/pkg/ | grep -E '^jdk.*gz$')
-    sed -i "s/^jdk=.*$/jdk='${jdk}'/g" ./config/set.env
-    echo "Java file is: $(grep jdk= ./config/set.env)"
-    cp ${cur_dir}/pkg/mongo*gz ${pkg_dir}
-    mongo=$(ls ${deploy_dir}/pkg/ | grep -E '^mongodb.*gz$')
-    sed -i "s/^mongo=.*$/mongo='${mongo}'/g" ./config/set.env
-    echo "MongoDB file is: $(grep mongo= ./config/set.env)"
-    cp ${cur_dir}/pkg/tapdata*gz ${pkg_dir}
-    tapd8=$(ls ${deploy_dir}/pkg/ | grep -E '^tapdata.*gz$')
-    sed -i "s/^tapd8=.*$/tapd8='${tapd8}'/g" ./config/set.env
-    echo "Tapdata file is: $(grep tapd8= ./config/set.env)"
+    if [ -d ${pkg_dir} ]; then
+        echo "${pkg_dir} folder is existed."
+        jdk=$(ls ${deploy_dir}/pkg/ | grep -E '^jdk.*gz$')
+        sed -i "s/^jdk=.*$/jdk='${jdk}'/g" ./config/set.env
+        echo "Java file is: $(grep jdk= ./config/set.env)"
+        mongo=$(ls ${deploy_dir}/pkg/ | grep -E '^mongodb.*gz$')
+        sed -i "s/^mongo=.*$/mongo='${mongo}'/g" ./config/set.env
+        echo "MongoDB file is: $(grep mongo= ./config/set.env)"
+        tapd8=$(ls ${deploy_dir}/pkg/ | grep -E '^tapdata.*gz$')
+        sed -i "s/^tapd8=.*$/tapd8='${tapd8}'/g" ./config/set.env
+        echo "Tapdata file is: $(grep tapd8= ./config/set.env)"
+    else
+        echo 'The packages are not existed,'
+        echo "please, create ${pkg_dir} folder and put packages into it."
+    fi
 }
 
 
