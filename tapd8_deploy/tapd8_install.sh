@@ -12,7 +12,6 @@
 #     ----/application.yml
 #     ----/node_l.yml
 #     ----/repl_init.js
-# ----/pkg
 # ----/tapd8_install.sh
 # 
 # 部署前仔细检查config目录中的各配置文件
@@ -258,9 +257,10 @@ tapd8_p_init() {
     # host_ip=$(hostname -I | awk '{print $1}')
     
     read -p "Please enter the MongoDB ReplicaSet IP, Separated by commas: " mongo_3ip
-    ip1=$(echo ${mongo_3ip} | cut -d ',' -f 1)
-    ip2=$(echo ${mongo_3ip} | cut -d ',' -f 2)
-    ip3=$(echo ${mongo_3ip} | cut -d ',' -f 3)
+    # 在${mongo_3ip}后面加‘,’   防止只有一个ip地址输入时，后面如果没有逗号，cut -d ',' -f 2 和 3 与 1 是一样的值
+    ip1=$(echo ${mongo_3ip}, | cut -d ',' -f 1)
+    ip2=$(echo ${mongo_3ip}, | cut -d ',' -f 2)
+    ip3=$(echo ${mongo_3ip}, | cut -d ',' -f 3)
 
     if [ "${ip1}" != "" ]; then
         mongo_uri=${ip1}:${port_default}
