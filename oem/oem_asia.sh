@@ -17,7 +17,7 @@ para=$1
 new_path=$2
 old_path=$3
 
-
+mdb_string='mongodb://root:2khyEdVt@192.168.0.202:21330,192.168.0.201:21331,192.168.0.203:21332/tapdata?replicaSet=asiainfo&authSource=admin'
 
 
 # 停旧平台
@@ -28,7 +28,7 @@ stop_old() {
 # 备份中间库
 bak_mdb() {
 	echo '-------- Backing up middle MDB --------'
-    mongodump --uri 'mongodb://root:2khyEdVt@192.168.0.205:21332/tapdata?authSource=admin&replicaSet=asiainfo' --gzip -o /opt/midDB_bak-$(date +"%Y%m%d")/
+    mongodump --uri ${mdb_string} --gzip -o /opt/midDB_bak-$(date +"%Y%m%d")/
 }
 
 
@@ -60,7 +60,7 @@ mod_api() {
 # 4. 修改中间库设置
 mod_mdb() {
     echo '-------- Modify the middle MDB frontend settings --------'
-    mongo 'mongodb://root:2khyEdVt@192.168.0.205:21332/tapdata?authSource=admin&replicaSet=asiainfo' ./oem_asia_modify.js
+    mongo ${mdb_string} ./oem_asia_modify.js
 }
 
 

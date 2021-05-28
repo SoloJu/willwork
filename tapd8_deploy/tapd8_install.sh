@@ -271,7 +271,7 @@ tapd8_p_init() {
     if [ "${ip3}" != "" ]; then
         mongo_uri=${mongo_uri},${ip3}:${port_default}
     fi
-    sed -i "s/mdb_string/${mongo_uri}\/tapdata\?replicatSet=tapd8/g" ${tapd8_work_dir}/application.yml
+    sed -i "s/mdb_string/${mongo_uri}\/tapdata\?replicatSet=${rs_name}/g" ${tapd8_work_dir}/application.yml
     # sed -i "s/mdb_string/${host_ip}:${port_default}\/tapdata\?replicatSet=tapd8/g" ${tapd8_work_dir}/application.yml
     grep 'mongoConnectionString' ${tapd8_work_dir}/application.yml
 
